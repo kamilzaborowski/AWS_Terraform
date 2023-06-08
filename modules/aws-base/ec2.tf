@@ -1,12 +1,12 @@
 resource "aws_instance" "server" {
-  depends_on      = [aws_subnet.subnets, aws_internet_gateway.gw]
-  ami             = data.aws_ami.ubuntu.id
-  count           = length(var.availability_zones)
-  instance_type   = var.instance_type
-  subnet_id       = aws_subnet.subnets[count.index].id
-  security_groups = [aws_security_group.allow.id]
-  key_name        = data.aws_key_pair.key.key_name
-  user_data       = <<-EOF
+  depends_on             = [aws_subnet.subnets, aws_internet_gateway.gw]
+  ami                    = data.aws_ami.ubuntu.id
+  count                  = length(var.availability_zones)
+  instance_type          = var.instance_type
+  subnet_id              = aws_subnet.subnets[count.index].id
+  vpc_security_group_ids = [aws_security_group.allow.id]
+  key_name               = data.aws_key_pair.key.key_name
+  user_data              = <<-EOF
                   #!/bin/bash
                   sudo apt update
                   sudo apt install -y httpd
