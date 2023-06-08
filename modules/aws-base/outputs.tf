@@ -5,3 +5,8 @@ output "aws_instance_dns" {
     DNS        = aws_instance.server[*].public_dns
   }
 }
+
+output "aws_lb_dns" {
+  description = "DNS for ALB"
+  value       = aws_lb.alb.dns_name
+}

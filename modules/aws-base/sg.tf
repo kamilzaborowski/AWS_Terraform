@@ -4,7 +4,7 @@ resource "aws_security_group" "allow" {
   vpc_id      = aws_vpc.default_vpc.id
 
   ingress {
-    description = "SSH from any"
+    description = "SSH"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -12,7 +12,7 @@ resource "aws_security_group" "allow" {
   }
 
   ingress {
-    description = "HTTP from any"
+    description = "HTTP"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
