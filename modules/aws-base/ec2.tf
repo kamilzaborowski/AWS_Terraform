@@ -1,5 +1,5 @@
 resource "aws_instance" "server" {
-  depends_on      = [aws_internet_gateway.gw, aws_subnet.subnets]
+  depends_on      = [aws_subnet.subnets,aws_internet_gateway.gw]
   ami             = data.aws_ami.ubuntu.id
   count           = length(var.availability_zones)
   instance_type   = var.instance_type
@@ -10,9 +10,9 @@ resource "aws_instance" "server" {
                   #!/bin/bash
                   sudo apt update
                   sudo apt install -y httpd
-                  echo "<H1>Witaj na $(hostname -f)</H1> > /var/www/html/index.html"
-                  echo "<H2>$(date)</H2> >> /var/www/hrml/index.html"
+                  echo "<H1>Witaj na $(hostname -f)</H1> >> /var/www/html/index.html"
                   echo "<H2> I'm in subnet ${var.cidr_blocks[count.index]}}</H2> >> /var/www/html/index.html"
+                  echo "<H2>File created at: $(date)</H2> >> /var/www/html/index.html"
                   sudo systemctl enable httpd
                   sudo systemctl start httpd
                   EOF
