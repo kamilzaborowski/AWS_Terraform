@@ -14,7 +14,7 @@ provider "aws" {
   profile                  = "default"
   default_tags {
     tags = {
-      Name = "Test"
+      Author = "Kamil-Zaborowski"
     }
   }
 }
