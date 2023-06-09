@@ -14,7 +14,7 @@ provider "aws" {
   profile                  = "default"
   default_tags {
     tags = {
-      Author = "Kamil-Zaborowski"
+      Author  = "Kamil-Zaborowski"
       Project = "Kubernetes"
     }
   }
