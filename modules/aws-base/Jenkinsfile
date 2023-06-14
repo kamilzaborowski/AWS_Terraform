@@ -1,0 +1,41 @@
+pipeline {
+    agent {
+        label 'agent1'
+    }
+
+    tools {
+        terraform 'Terraform'
+    }
+
+    stages {
+        stage('Get code') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Init and run terraform') {
+            steps {
+                dir('aws-base') {
+                    git branch: 'main' url: 'https://github.com/kamilzaborowski/AWS_Terraform/modules/aws-base'
+                    withAWS(credentials:'AWS',region: 'us-east-1') {
+                        sh 'terraform init && terraform apply -auto-approve'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            sh 'sleep 60'
+            dir('aws-base') {
+               git branch: 'main' url: 'https://github.com/kamilzaborowski/AWS_Terraform/modules/aws-base'
+               withAWS(credentials:'AWS',region: 'us-east-1') {
+                sh 'terraform destroy -auto-approve'
+               }
+            }
+        }
+            cleanWs()
+    }
+}
